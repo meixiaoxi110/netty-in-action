@@ -6,6 +6,8 @@ import io.netty.channel.embedded.EmbeddedChannel;
 import nia.chapter9.AbsIntegerEncoder;
 import org.junit.Test;
 
+import java.net.InetSocketAddress;
+
 import static org.junit.Assert.*;
 
 /**
@@ -28,7 +30,7 @@ public class AbsIntegerEncoderTest {
 
         // read bytes
         for (int i = 1; i < 10; i++) {
-            assertEquals(i, channel.readOutbound());
+            assertEquals(Integer.valueOf(i), channel.readOutbound());
         }
         assertNull(channel.readOutbound());
     }

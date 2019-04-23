@@ -19,6 +19,7 @@ import java.net.InetSocketAddress;
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 public class ChatServer {
+    //创建DefaultChannelGroup其将保存所有已经连接的WebSocket Channel
     private final ChannelGroup channelGroup =
         new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE);
     private final EventLoopGroup group = new NioEventLoopGroup();
@@ -57,12 +58,7 @@ public class ChatServer {
         final ChatServer endpoint = new ChatServer();
         ChannelFuture future = endpoint.start(
                 new InetSocketAddress(port));
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                endpoint.destroy();
-            }
-        });
+        Runtime.getRuntime().addShutdownHook(new Thread(endpoint::destroy));
         future.channel().closeFuture().syncUninterruptibly();
     }
 }
